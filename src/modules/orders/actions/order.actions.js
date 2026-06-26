@@ -1,40 +1,21 @@
-'use server'
+import { revalidatePath } from 'next/cache'
+import { changeOrderStatus } from '../services/order.service'
 
-import { auth } from '@/lib/auth'
-import { redirect } from 'next/navigation'
-import { placeOrder } from '../services/order.service'
-import { checkoutSchema } from '../validators/order.validator'
 
-export async function confirmOrderAction(data) {
+export async function updateOrderStatusAction(id, status) {
   try {
     const session = await auth()
-    if (!session) {
-      return { success: false, error: 'Please login to place an order' }
+    if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'SUPER_ADMIN')) {
+      return { success: false, error: 'Unauthorized' }
     }
 
-    const parsed = checkoutSchema.safeParse(data)
-    if (!parsed.success) {
-      return {
-        success: false,
-        error: parsed.error.errors[0].message,
-      }
-    }
+    await changeOrderStatus(id, status)
+    revalidatePath('/admin/orders')
+    revalidatePath(`/admin/orders/${id}`)
 
-    const { address, paymentMethod, paymentDetails, notes } = parsed.data
-
-    const order = await placeOrder(session.user.id, {
-      addressData: address,
-      paymentMethod,
-      paymentDetails,
-      notes,
-    })
-
-    return { success: true, orderNumber: order.orderNumber }
+    return { success: true }
   } catch (error) {
-    console.error('Confirm order error:', error)
-    return {
-      success: false,
-      error: error.message || 'Failed to place order. Please try again.',
-    }
+    console.error('Update order status error:', error)
+    return { success: false, error: 'Failed to update status' }
   }
 }
