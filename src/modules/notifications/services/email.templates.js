@@ -1,6 +1,8 @@
 import { APP_CONFIG } from '@/config/app'
 import { ORDER_STATUS_LABELS } from '@/config/app'
 
+import { PAYMENT_METHOD_LABELS } from '@/config/app'
+
 function baseLayout(content) {
   return `
     <!DOCTYPE html>
@@ -67,11 +69,6 @@ export function customerOrderConfirmationTemplate(order) {
     notes,
   } = order
 
-  const paymentLabels = {
-    CASH_ON_DELIVERY: 'Cash on Delivery',
-    MOBILE_MONEY: 'Mobile Money',
-    BANK_TRANSFER: 'Bank Transfer',
-  }
 
   const itemsHtml = items
     .map(
@@ -132,7 +129,7 @@ export function customerOrderConfirmationTemplate(order) {
         <div class="card">
           <div class="row">
             <span class="row-label">Method</span>
-            <span class="badge payment-badge">${paymentLabels[paymentMethod]}</span>
+            <span class="badge payment-badge">${PAYMENT_METHOD_LABELS[paymentMethod]}</span>
           </div>
           ${paymentDetails ? `
           <div style="margin-top: 12px; font-size: 14px; color: #52525b; line-height: 1.6;">
@@ -198,11 +195,7 @@ export function adminNewOrderTemplate(order) {
     createdAt,
   } = order
 
-  const paymentLabels = {
-    CASH_ON_DELIVERY: 'Cash on Delivery',
-    MOBILE_MONEY: 'Mobile Money',
-    BANK_TRANSFER: 'Bank Transfer',
-  }
+
 
   const itemsHtml = items
     .map(
@@ -269,7 +262,7 @@ export function adminNewOrderTemplate(order) {
         <div class="card">
           <div class="row">
             <span class="row-label">Method</span>
-            <span class="badge payment-badge">${paymentLabels[paymentMethod]}</span>
+            <span class="badge payment-badge">${PAYMENT_METHOD_LABELS[paymentMethod]}</span>
           </div>
         </div>
       </div>

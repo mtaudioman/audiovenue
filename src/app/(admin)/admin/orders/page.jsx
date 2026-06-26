@@ -1,6 +1,7 @@
 import { getAllOrders } from '@/modules/orders/services/order.service'
 import { formatPrice } from '@/modules/products/services/product.service'
 import Link from 'next/link'
+import { PAYMENT_METHOD_LABELS } from '@/config/app'
 
 export const metadata = { title: 'Orders | Admin' }
 
@@ -13,11 +14,7 @@ const statusColors = {
   CANCELLED: 'bg-red-100 text-red-700',
 }
 
-const paymentLabels = {
-  CASH_ON_DELIVERY: 'Cash on Delivery',
-  MOBILE_MONEY: 'Mobile Money',
-  BANK_TRANSFER: 'Bank Transfer',
-}
+
 
 export default async function AdminOrdersPage({ searchParams }) {
   const { status, page } = await searchParams
@@ -99,7 +96,7 @@ export default async function AdminOrdersPage({ searchParams }) {
                       <p className="text-xs text-zinc-400">{order.user?.email}</p>
                     </td>
                     <td className="px-6 py-4">
-                      <p className="text-xs text-zinc-600">{paymentLabels[order.paymentMethod]}</p>
+                      <p className="text-xs text-zinc-600">{PAYMENT_METHOD_LABELS[order.paymentMethod]}</p>
                     </td>
                     <td className="px-6 py-4">
                       <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusColors[order.status]}`}>

@@ -5,6 +5,7 @@ import { formatPrice } from '@/modules/products/services/product.service'
 import { ORDER_STATUS_LABELS } from '@/config/app'
 import Link from 'next/link'
 import { CheckCircle2 } from 'lucide-react'
+import { PAYMENT_METHOD_LABELS } from '@/config/app'
 
 export default async function OrderConfirmationPage({ params }) {
   const session = await auth()
@@ -14,12 +15,6 @@ export default async function OrderConfirmationPage({ params }) {
   const order = await getOrderByNumber(orderNumber)
 
   if (!order || order.userId !== session.user.id) redirect('/dashboard')
-
-  const paymentLabels = {
-    CASH_ON_DELIVERY: 'Cash on Delivery',
-    MOBILE_MONEY: 'Mobile Money',
-    BANK_TRANSFER: 'Bank Transfer',
-  }
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-12">
@@ -49,7 +44,7 @@ export default async function OrderConfirmationPage({ params }) {
           </div>
           <div>
             <p className="text-xs text-zinc-500 uppercase tracking-wide">Payment Method</p>
-            <p className="font-medium text-sm mt-1">{paymentLabels[order.paymentMethod]}</p>
+            <p className="font-medium text-sm mt-1">{PAYMENT_METHOD_LABELS[order.paymentMethod]}</p>
           </div>
           <div>
             <p className="text-xs text-zinc-500 uppercase tracking-wide">Order Total</p>

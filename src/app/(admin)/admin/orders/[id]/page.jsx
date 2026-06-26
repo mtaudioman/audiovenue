@@ -2,17 +2,13 @@ import { getOrderById, changeOrderStatus } from '@/modules/orders/services/order
 import { formatPrice } from '@/modules/products/services/product.service'
 import { redirect, notFound } from 'next/navigation'
 import OrderStatusUpdater from '@/modules/orders/components/OrderStatusUpdater'
+import { PAYMENT_METHOD_LABELS } from '@/config/app'
 
 export default async function AdminOrderDetailPage({ params }) {
   const { id } = await params
   const order = await getOrderById(id)
   if (!order) notFound()
 
-  const paymentLabels = {
-    CASH_ON_DELIVERY: 'Cash on Delivery',
-    MOBILE_MONEY: 'Mobile Money',
-    BANK_TRANSFER: 'Bank Transfer',
-  }
 
   const statusColors = {
     PENDING: 'bg-yellow-100 text-yellow-700',
@@ -126,7 +122,7 @@ export default async function AdminOrderDetailPage({ params }) {
           {/* Payment */}
           <div className="bg-white rounded-2xl shadow-sm p-5">
             <h3 className="font-bold mb-3 text-sm uppercase tracking-wide text-zinc-500">Payment</h3>
-            <p className="text-sm font-medium">{paymentLabels[order.paymentMethod]}</p>
+            <p className="text-sm font-medium">{PAYMENT_METHOD_LABELS[order.paymentMethod]}</p>
             {order.paymentDetails && (
               <p className="text-sm text-zinc-500 mt-1">{order.paymentDetails}</p>
             )}

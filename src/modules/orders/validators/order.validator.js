@@ -1,5 +1,8 @@
 import { z } from 'zod'
+import { PAYMENT_METHODS } from '@/config/app'
 
+
+const paymentIds = PAYMENT_METHODS.map((m) => m.id)
 export const addressSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
@@ -16,7 +19,7 @@ export const addressSchema = z.object({
 
 export const checkoutSchema = z.object({
   address: addressSchema,
-  paymentMethod: z.enum(['CASH_ON_DELIVERY', 'MOBILE_MONEY', 'BANK_TRANSFER']),
+  paymentMethod: z.enum(paymentIds),
   paymentDetails: z.string().optional(),
   notes: z.string().optional(),
 })

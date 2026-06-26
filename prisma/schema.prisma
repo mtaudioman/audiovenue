@@ -30,10 +30,15 @@ enum OrderStatus {
 }
 
 enum PaymentMethod {
-  zelle
-  paypal
-  CASH_ON_DELIVERY
   BANK_TRANSFER
+  CHIME
+  CASHAPP
+  ZELLE
+  APPLE_PAY
+  PAYPAL
+  VENMO
+  CARD
+  BITCOIN
 }
 
 enum AddressType {

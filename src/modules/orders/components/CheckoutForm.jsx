@@ -10,10 +10,12 @@ import { checkoutSchema } from '../validators/order.validator'
 import { confirmOrderAction } from '../actions/order.actions'
 import { PAYMENT_METHODS } from '@/config/app'
 
+
+const activeMethod = PAYMENT_METHODS.find((m) => m.id === selectedPayment)
 export default function CheckoutForm({ user }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const [selectedPayment, setSelectedPayment] = useState('CASH_ON_DELIVERY')
+  const [selectedPayment, setSelectedPayment] = useState(PAYMENT_METHODS[0].id)
 
   const {
     register,
@@ -22,11 +24,11 @@ export default function CheckoutForm({ user }) {
   } = useForm({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
-      paymentMethod: 'CASH_ON_DELIVERY',
+      paymentMethod: PAYMENT_METHODS[0].id,
       address: {
         type: 'SHIPPING',
         isDefault: false,
-        country: 'Cameroon',
+        country: 'United States',
       },
     },
   })
@@ -64,7 +66,7 @@ export default function CheckoutForm({ user }) {
             <input
               {...register('address.firstName')}
               className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
-              placeholder="John"
+              placeholder="daniel"
             />
             {errors.address?.firstName && (
               <p className="text-red-500 text-xs mt-1">{errors.address.firstName.message}</p>
@@ -76,7 +78,7 @@ export default function CheckoutForm({ user }) {
             <input
               {...register('address.lastName')}
               className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
-              placeholder="Doe"
+              placeholder="smith"
             />
             {errors.address?.lastName && (
               <p className="text-red-500 text-xs mt-1">{errors.address.lastName.message}</p>
@@ -88,7 +90,7 @@ export default function CheckoutForm({ user }) {
             <input
               {...register('address.phone')}
               className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
-              placeholder="+237 6XX XXX XXX"
+              placeholder="+1 555 555 5555"
             />
             {errors.address?.phone && (
               <p className="text-red-500 text-xs mt-1">{errors.address.phone.message}</p>
@@ -112,7 +114,7 @@ export default function CheckoutForm({ user }) {
             <input
               {...register('address.city')}
               className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
-              placeholder="Douala"
+              placeholder="New York"
             />
             {errors.address?.city && (
               <p className="text-red-500 text-xs mt-1">{errors.address.city.message}</p>
@@ -120,11 +122,11 @@ export default function CheckoutForm({ user }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Region</label>
+            <label className="block text-sm font-medium text-zinc-700 mb-1">State</label>
             <input
               {...register('address.state')}
               className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
-              placeholder="Littoral"
+              placeholder="New York"
             />
             {errors.address?.state && (
               <p className="text-red-500 text-xs mt-1">{errors.address.state.message}</p>
@@ -136,7 +138,7 @@ export default function CheckoutForm({ user }) {
             <input
               {...register('address.postalCode')}
               className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
-              placeholder="00000"
+              placeholder="10001"
             />
             {errors.address?.postalCode && (
               <p className="text-red-500 text-xs mt-1">{errors.address.postalCode.message}</p>
@@ -148,7 +150,7 @@ export default function CheckoutForm({ user }) {
             <input
               {...register('address.country')}
               className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
-              placeholder="Cameroon"
+              placeholder="United States"
             />
             {errors.address?.country && (
               <p className="text-red-500 text-xs mt-1">{errors.address.country.message}</p>
@@ -195,21 +197,21 @@ export default function CheckoutForm({ user }) {
         </div>
 
         {/* Mobile Money / Bank Transfer details */}
-        {(selectedPayment === 'MOBILE_MONEY' || selectedPayment === 'BANK_TRANSFER') && (
-          <div className="mt-4">
+       {activeMethod?.requiresReference && (
+          <div className="mt-4 space-y-2">
+            {activeMethod.payTo && (
+              <div className="text-sm bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2">
+                <span className="text-zinc-500">Send payment to: </span>
+                <span className="font-semibold">{activeMethod.payTo}</span>
+              </div>
+            )}
             <label className="block text-sm font-medium text-zinc-700 mb-1">
-              {selectedPayment === 'MOBILE_MONEY'
-                ? 'Your Mobile Money Number'
-                : 'Your Bank Account Name / Reference'}
+              {activeMethod.referenceLabel}
             </label>
             <input
               {...register('paymentDetails')}
               className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
-              placeholder={
-                selectedPayment === 'MOBILE_MONEY'
-                  ? '+237 6XX XXX XXX'
-                  : 'e.g. John Doe - UBA Bank'
-              }
+              placeholder={activeMethod.referencePlaceholder}
             />
           </div>
         )}
