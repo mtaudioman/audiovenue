@@ -117,14 +117,14 @@ export default async function DashboardPage() {
             className="flex items-center gap-3 bg-zinc-50 rounded-xl p-4 hover:bg-zinc-100 transition-colors"
           >
             <MapPin className="w-5 h-5 text-zinc-400" />
-            <span className="text-sm font-medium">Manage Profile</span>
+            <span className="text-sm font-medium text-zinc-800">Manage Profile</span>
           </Link>
           <Link
             href="/dashboard/wishlist"
             className="flex items-center gap-3 bg-zinc-50 rounded-xl p-4 hover:bg-zinc-100 transition-colors"
           >
             <Heart className="w-5 h-5 text-zinc-400" />
-            <span className="text-sm font-medium">My Wishlist</span>
+            <span className="text-sm font-medium text-zinc-800">My Wishlist</span>
           </Link>
         </div>
       </div>

@@ -39,10 +39,10 @@ export default function ProfileForm({ user }) {
     <div className="bg-zinc-50 rounded-2xl p-6">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div>
-          <label className="block text-sm font-medium text-zinc-700 mb-1">Full Name</label>
+          <label className="block text-sm font-medium text-zinc-800 mb-1">Full Name</label>
           <input
             {...register('name')}
-            className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 bg-white"
+            className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 bg-white text-black"
           />
           {errors.name && (
             <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
@@ -54,7 +54,7 @@ export default function ProfileForm({ user }) {
           <input
             value={user.email}
             disabled
-            className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm bg-zinc-100 text-zinc-400 cursor-not-allowed"
+            className=" w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm bg-zinc-100 text-zinc-800 cursor-not-allowed"
           />
           <p className="text-xs text-zinc-400 mt-1">Email cannot be changed</p>
         </div>
@@ -63,8 +63,8 @@ export default function ProfileForm({ user }) {
           <label className="block text-sm font-medium text-zinc-700 mb-1">Phone Number</label>
           <input
             {...register('phone')}
-            className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 bg-white"
-            placeholder="+237 6XX XXX XXX"
+            className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 bg-white text-black"
+            placeholder="+1 XXX XXX XXXX"
           />
         </div>
 
