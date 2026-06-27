@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
-import { updateProfileAction } from '@/modules/users/actions/user.actions'
+import { updateProfileAction } from '@/src/modules/users/actions/user.actions'
 
 const profileSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),

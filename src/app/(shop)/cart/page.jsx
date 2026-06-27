@@ -1,8 +1,8 @@
-import { auth } from '@/lib/auth'
+import { auth } from '@/src/lib/auth'
 import { redirect } from 'next/navigation'
-import { getCart } from '@/modules/cart/services/cart.service'
-import CartItem from '@/modules/cart/components/CartItem'
-import { formatPrice } from '@/modules/products/services/product.service'
+import { getCart } from '@/src/modules/cart/services/cart.service'
+import CartItem from '@/src/modules/cart/components/CartItem'
+import { formatPrice } from '@/src/modules/products/services/product.service'
 import Link from 'next/link'
 import { ShoppingBag } from 'lucide-react'
 

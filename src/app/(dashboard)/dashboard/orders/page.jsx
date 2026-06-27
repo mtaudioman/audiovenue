@@ -1,7 +1,7 @@
-import { auth } from '@/lib/auth'
-import { getUserOrders } from '@/modules/orders/services/order.service'
-import { formatPrice } from '@/modules/products/services/product.service'
-import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from '@/config/app'
+import { auth } from '@/src/lib/auth'
+import { getUserOrders } from '@/src/modules/orders/services/order.service'
+import { formatPrice } from '@/src/modules/products/services/product.service'
+import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from '@/src/config/app'
 import Link from 'next/link'
 import { ShoppingBag } from 'lucide-react'
 

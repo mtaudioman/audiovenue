@@ -1,5 +1,5 @@
-import { getProducts } from '@/modules/products/services/product.service'
-import { formatPrice } from '@/modules/products/services/product.service'
+import { getProducts } from '@/src/modules/products/services/product.service'
+import { formatPrice } from '@/src/modules/products/services/product.service'
 import Link from 'next/link'
 import { Plus, Pencil } from 'lucide-react'
 

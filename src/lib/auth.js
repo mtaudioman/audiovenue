@@ -2,8 +2,8 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 import bcrypt from 'bcryptjs'
-import prisma from '@/lib/db'
-import { loginSchema } from '@/modules/auth/validators/auth.validator'
+import prisma from '@/src/lib/db'
+import { loginSchema } from '@/src/modules/auth/validators/auth.validator'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {

@@ -1,6 +1,6 @@
-import { auth } from '@/lib/auth'
+import { auth } from '@/src/lib/auth'
 import { redirect } from 'next/navigation'
-import AdminNav from '@/components/layout/AdminNav'
+import AdminNav from '@/src/components/layout/AdminNav'
 
 export const metadata = {
   title: 'Admin Panel | Audiovenue',

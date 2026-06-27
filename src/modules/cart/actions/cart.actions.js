@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { auth } from '@/lib/auth'
+import { auth } from '@/src/lib/auth'
 import {
   addToCart,
   updateCartItem,

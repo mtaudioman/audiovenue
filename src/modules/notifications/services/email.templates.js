@@ -1,7 +1,7 @@
-import { APP_CONFIG } from '@/config/app'
-import { ORDER_STATUS_LABELS } from '@/config/app'
+import { APP_CONFIG } from '@/src/config/app'
+import { ORDER_STATUS_LABELS } from '@/src/config/app'
 
-import { PAYMENT_METHOD_LABELS } from '@/config/app'
+import { PAYMENT_METHOD_LABELS } from '@/src/config/app'
 
 function baseLayout(content) {
   return `

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { PAYMENT_METHODS } from '@/config/app'
+import { PAYMENT_METHODS } from '@/src/config/app'
 
 
 const paymentIds = PAYMENT_METHODS.map((m) => m.id)

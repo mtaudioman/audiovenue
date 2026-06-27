@@ -8,7 +8,7 @@ import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
 import { checkoutSchema } from '../validators/order.validator'
 import { confirmOrderAction } from '../actions/order.actions'
-import { PAYMENT_METHODS } from '@/config/app'
+import { PAYMENT_METHODS } from '@../config/app'
 
 
 const activeMethod = PAYMENT_METHODS.find((m) => m.id === selectedPayment)

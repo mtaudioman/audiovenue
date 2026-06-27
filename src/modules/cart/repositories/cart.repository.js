@@ -1,4 +1,4 @@
-import prisma from '@/lib/db'
+import prisma from '@/src/lib/db'
 
 export async function findCartByUserId(userId) {
   return prisma.cart.findUnique({

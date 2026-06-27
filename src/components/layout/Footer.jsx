@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { APP_CONFIG } from '@/config/app'
+import { APP_CONFIG } from '@/src/config/app'
 import { Mail, Phone, Clock } from 'lucide-react'
 
 export default function Footer() {

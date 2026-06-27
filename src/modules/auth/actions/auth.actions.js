@@ -1,9 +1,9 @@
 'use server'
 
 import bcrypt from 'bcryptjs'
-import { signIn, signOut } from '@/lib/auth'
-import prisma from '@/lib/db'
-import { registerSchema } from '@/modules/auth/validators/auth.validator'
+import { signIn, signOut } from '@/src/lib/auth'
+import prisma from '@/src/lib/db'
+import { registerSchema } from '@/src/modules/auth/validators/auth.validator'
 import { AuthError } from 'next-auth'
 
 export async function registerAction(data) {

@@ -1,7 +1,7 @@
-import { getAllOrders } from '@/modules/orders/services/order.service'
-import { formatPrice } from '@/modules/products/services/product.service'
+import { getAllOrders } from '@/src/modules/orders/services/order.service'
+import { formatPrice } from '@/src/modules/products/services/product.service'
 import Link from 'next/link'
-import { PAYMENT_METHOD_LABELS } from '@/config/app'
+import { PAYMENT_METHOD_LABELS } from '@/src/config/app'
 
 export const metadata = { title: 'Orders | Admin' }
 

@@ -8,8 +8,8 @@ import {
   updateOrderEmailStatus,
   generateOrderNumber,
 } from '../repositories/order.repository'
-import { getCart, emptyCart } from '@/modules/cart/services/cart.service'
-import { sendOrderConfirmationEmails } from '@/modules/notifications/services/notification.service'
+import { getCart, emptyCart } from '@/src/modules/cart/services/cart.service'
+import { sendOrderConfirmationEmails } from '@/src/modules/notifications/services/notification.service'
 
 export async function placeOrder(userId, { addressData, paymentMethod, paymentDetails, notes }) {
   // 1 — Get cart

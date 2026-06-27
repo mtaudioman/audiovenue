@@ -1,6 +1,6 @@
-import { auth } from '@/lib/auth'
-import ProfileForm from '@/modules/users/components/ProfileForm'
-import prisma from '@/lib/db'
+import { auth } from '@/src/lib/auth'
+import ProfileForm from '@/src/modules/users/components/ProfileForm'
+import prisma from '@/src/lib/db'
 
 export const metadata = { title: 'Profile | Audiovenue' }
 

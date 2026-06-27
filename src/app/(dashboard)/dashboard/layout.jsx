@@ -1,8 +1,8 @@
-import { auth } from '@/lib/auth'
+import { auth } from '@/src/lib/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import DashboardNav from '@/components/layout/DashboardNav'
+// import { usePathname } from 'next/navigation'
+import DashboardNav from '@/src/components/layout/DashboardNav'
 
 export const metadata = {
   title: 'Dashboard | Audiovenue',

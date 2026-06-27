@@ -1,8 +1,8 @@
-import { auth } from '@/lib/auth'
+import { auth } from '@/src/lib/auth'
 import { redirect } from 'next/navigation'
-import { getCart } from '@/modules/cart/services/cart.service'
-import CheckoutForm from '@/modules/orders/components/CheckoutForm'
-import { formatPrice } from '@/modules/products/services/product.service'
+import { getCart } from '@/src/modules/cart/services/cart.service'
+import CheckoutForm from '@src/modules/orders/components/CheckoutForm'
+import { formatPrice } from '@/src/modules/products/services/product.service'
 import Image from 'next/image'
 
 export const metadata = {

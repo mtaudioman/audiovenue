@@ -1,8 +1,8 @@
 'use server'
 
-import { auth } from '@/lib/auth'
+import { auth } from '@/src/lib/auth'
 import { revalidatePath } from 'next/cache'
-import prisma from '@/lib/db'
+import prisma from '@/src/lib/db'
 import { z } from 'zod'
 
 const profileSchema = z.object({

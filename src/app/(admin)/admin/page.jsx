@@ -1,7 +1,7 @@
-import { getAllOrders } from '@/modules/orders/services/order.service'
-import { getProducts } from '@/modules/products/services/product.service'
-import { formatPrice } from '@/modules/products/services/product.service'
-import prisma from '@/lib/db'
+import { getAllOrders } from '@/src/modules/orders/services/order.service'
+import { getProducts } from '@/src/modules/products/services/product.service'
+import { formatPrice } from '@/src/modules/products/services/product.service'
+import prisma from '@/src/lib/db'
 import Link from 'next/link'
 import {
   ShoppingBag,

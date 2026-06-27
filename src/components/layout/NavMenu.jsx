@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { NAV_LINKS } from '@/config/app'
+import { NAV_LINKS } from '../../config/app'
 
 export default function NavMenu() {
   const pathname = usePathname()
@@ -15,7 +15,6 @@ export default function NavMenu() {
             const isActive = link.href === '/'
               ? pathname === '/'
               : pathname.startsWith(link.href)
-
             return (
               <Link
                 key={link.href}

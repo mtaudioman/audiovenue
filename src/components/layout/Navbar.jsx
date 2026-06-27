@@ -1,5 +1,5 @@
-import { auth } from '@/lib/auth'
-import { getCart } from '@/modules/cart/services/cart.service'
+import { auth } from '../../lib/auth'
+import { getCart } from '../../modules/cart/services/cart.service'
 import TopBar from './TopBar'
 import HeaderMiddle from './HeaderMiddle'
 import NavMenu from './NavMenu'

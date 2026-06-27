@@ -1,9 +1,9 @@
-import { sendEmail } from '@/lib/email'
+import { sendEmail } from '@/src/lib/email'
 import {
   customerOrderConfirmationTemplate,
   adminNewOrderTemplate,
 } from './email.templates'
-import { APP_CONFIG } from '@/config/app'
+import { APP_CONFIG } from '@/src/config/app'
 
 export async function sendOrderConfirmationEmails(order) {
   const results = await Promise.allSettled([

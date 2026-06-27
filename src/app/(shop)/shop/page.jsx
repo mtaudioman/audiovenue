@@ -1,5 +1,5 @@
-import { getProducts } from '@/modules/products/services/product.service'
-import ProductGrid from '@/modules/products/components/ProductGrid'
+import { getProducts } from '@/src/modules/products/services/product.service'
+import ProductGrid from '@/src/modules/products/components/ProductGrid'
 
 export const metadata = {
   title: 'Shop | Audiovenue',

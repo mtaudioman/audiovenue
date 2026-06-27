@@ -1,11 +1,11 @@
-import { auth } from '@/lib/auth'
+import { auth } from '@/src/lib/auth'
 import { redirect } from 'next/navigation'
-import { getOrderByNumber } from '@/modules/orders/services/order.service'
-import { formatPrice } from '@/modules/products/services/product.service'
-import { ORDER_STATUS_LABELS } from '@/config/app'
+import { getOrderByNumber } from '@/src/modules/orders/services/order.service'
+import { formatPrice } from '@/src/modules/products/services/product.service'
+import { ORDER_STATUS_LABELS } from '@/src/config/app'
 import Link from 'next/link'
 import { CheckCircle2 } from 'lucide-react'
-import { PAYMENT_METHOD_LABELS } from '@/config/app'
+import { PAYMENT_METHOD_LABELS } from '@/src/config/app'
 
 export default async function OrderConfirmationPage({ params }) {
   const session = await auth()

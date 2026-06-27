@@ -1,5 +1,5 @@
 import { Resend } from 'resend'
-import { APP_CONFIG } from '@/config/app'
+import { APP_CONFIG } from '@/src/config/app'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 

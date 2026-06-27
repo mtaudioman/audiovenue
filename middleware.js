@@ -1,42 +1,38 @@
-import { auth } from '@/lib/auth'
 import { NextResponse } from 'next/server'
+import { getToken } from 'next-auth/jwt'
 
 const protectedRoutes = ['/dashboard', '/checkout', '/orders']
 const adminRoutes = ['/admin']
 const authRoutes = ['/login', '/register']
 
-export default auth((req) => {
-  const { nextUrl, auth: session } = req
-  const isLoggedIn = !!session?.user
-  const isAdmin = session?.user?.role === 'ADMIN' || session?.user?.role === 'SUPER_ADMIN'
+export async function middleware(req) {
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  })
 
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    nextUrl.pathname.startsWith(route)
-  )
-  const isAdminRoute = adminRoutes.some((route) =>
-    nextUrl.pathname.startsWith(route)
-  )
-  const isAuthRoute = authRoutes.some((route) =>
-    nextUrl.pathname.startsWith(route)
-  )
+  const { pathname } = req.nextUrl
+  const isLoggedIn = !!token
+  const isAdmin = token?.role === 'ADMIN' || token?.role === 'SUPER_ADMIN'
 
-  // Redirect logged-in users away from login/register
+  const isProtectedRoute = protectedRoutes.some((r) => pathname.startsWith(r))
+  const isAdminRoute = adminRoutes.some((r) => pathname.startsWith(r))
+  const isAuthRoute = authRoutes.some((r) => pathname.startsWith(r))
+
   if (isAuthRoute && isLoggedIn) {
-    return NextResponse.redirect(new URL('/dashboard', nextUrl))
+    return NextResponse.redirect(new URL('/dashboard', req.url))
   }
 
-  // Redirect unauthenticated users to login
   if (isProtectedRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/login', nextUrl))
+    return NextResponse.redirect(new URL('/login', req.url))
   }
 
-  // Redirect non-admins away from admin routes
   if (isAdminRoute && !isAdmin) {
-    return NextResponse.redirect(new URL('/', nextUrl))
+    return NextResponse.redirect(new URL('/', req.url))
   }
 
   return NextResponse.next()
-})
+}
 
 export const config = {
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],

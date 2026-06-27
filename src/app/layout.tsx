@@ -1,11 +1,11 @@
 import { Geist } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/src/components/layout/Navbar'
-import Footer from '@/src/components/layout/Footer'
-import CartSidebar from '@/src/modules/cart/components/CartSidebar'
+import Navbar from '../components/layout/Navbar'
+import Footer from '../components/layout/Footer'
+import CartSidebar from '../modules/cart/components/CartSidebar'
 import { Toaster } from 'sonner'
-import { auth } from '@/src/lib/auth'
-import { getCart } from '@/src/modules/cart/services/cart.service'
+import { auth } from '../lib/auth'
+import { getCart } from '../modules/cart/services/cart.service'
 
 const geist = Geist({ subsets: ['latin'] })
 
@@ -16,8 +16,8 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
-  let cart = null
 
+  let cart = null
   if (session?.user?.id) {
     try {
       cart = await getCart(session.user.id)

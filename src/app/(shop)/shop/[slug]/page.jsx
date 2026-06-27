@@ -7,8 +7,9 @@ import {
   formatPrice,
   getDiscountPercentage,
   isOnSale,
-} from '@/modules/products/services/product.service'
-import ProductGrid from '@/modules/products/components/ProductGrid'
+} from '@/src/modules/products/services/product.service'
+import ProductGrid from '@/src/modules/products/components/ProductGrid'
+import AddToCartButton from '@/src/modules/cart/components/AddToCartButton'
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
@@ -127,14 +128,17 @@ export default async function ProductPage({ params }) {
             </div>
           )}
 
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             <button
               className="w-full bg-zinc-900 text-white py-4 rounded-xl font-semibold text-base hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={product.stock === 0}
             >
               {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
             </button>
-          </div>
+          </div> */}
+          <div className="space-y-3">
+          <AddToCartButton productId={product.id} stock={product.stock} />
+         </div>
 
           <div className="mt-6 pt-6 border-t border-zinc-100 space-y-2">
             {product.sku && (
