@@ -1,5 +1,5 @@
-import prisma from '@/lib/db'
-import CategoryManager from '@/modules/admin/components/CategoryManager'
+import prisma from '@/src/lib/db'
+import CategoryManager from '@/src/modules/admin/components/CategoryManager'
 
 export const metadata = { title: 'Categories | Admin' }
 

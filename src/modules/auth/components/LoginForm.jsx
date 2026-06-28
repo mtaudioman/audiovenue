@@ -1,78 +1,94 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Loader2, Eye, EyeOff } from 'lucide-react'
 import { loginAction } from '../actions/auth.actions'
-import { loginSchema } from '../validators/auth.validator'
 
 export default function LoginForm() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [errors, setErrors] = useState({})
+  const [values, setValues] = useState({ email: '', password: '' })
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: zodResolver(loginSchema),
-  })
+  function handleChange(e) {
+    const { name, value } = e.target
+    setValues((v) => ({ ...v, [name]: value }))
+    setErrors((e) => ({ ...e, [name]: '' }))
+  }
 
-  async function onSubmit(data) {
-    setLoading(true)
-    const result = await loginAction(data)
-    if (!result.success) {
-      toast.error(result.error)
-      setLoading(false)
+  function validate() {
+    const errs = {}
+    if (!values.email || !/\S+@\S+\.\S+/.test(values.email)) errs.email = 'Invalid email address'
+    if (!values.password || values.password.length < 6) errs.password = 'Password must be at least 6 characters'
+    return errs
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    const errs = validate()
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs)
       return
     }
-    toast.success('Welcome back!')
-    router.push('/dashboard')
-    router.refresh()
+    setLoading(true)
+    try {
+      const result = await loginAction(values)
+      if (!result.success) {
+        toast.error(result.error)
+        return
+      }
+      toast.success('Welcome back!')
+      router.push('/dashboard')
+      router.refresh()
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-1">
-          Email Address
-        </label>
+        <label className="block text-sm font-medium text-zinc-700 mb-1">Email Address</label>
         <input
-          {...register('email')}
+          name="email"
           type="email"
+          value={values.email}
+          onChange={handleChange}
+          autoComplete="email"
           placeholder="you@example.com"
-          className="text-black w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] transition-colors"
+          className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
         />
-        {errors.email && (
-          <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
-        )}
+        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
       </div>
 
       <div>
-        <div className="flex justify-between items-center mb-1">
-          <label className="block text-sm font-medium text-zinc-700">Password</label>
-          <a href="/forgot-password" className="text-xs text-[#8B8B5A] hover:underline">
-            Forgot password?
-          </a>
-        </div>
+        <label className="block text-sm font-medium text-zinc-700 mb-1">Password</label>
         <div className="relative">
           <input
-            {...register('password')}
+            name="password"
             type={showPassword ? 'text' : 'password'}
+            value={values.password}
+            onChange={handleChange}
+            autoComplete="current-password"
             placeholder="••••••••"
-            className="text-black w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] transition-colors pr-10"
+            className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] pr-10"
           />
           <button
             type="button"
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={() => setShowPassword((v) => !v)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
           >
-            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            {showPassword ? (
+              <EyeOff className="w-4 h-4" />
+            ) : (
+              <Eye className="w-4 h-4" />
+            )}
           </button>
         </div>
-        {errors.password && (
-          <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
-        )}
+        {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
       </div>
 
       <button

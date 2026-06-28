@@ -50,6 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!passwordMatch) return null
         if (!user.isActive) return null
+        if (!user.emailVerified) return null
 
         return {
           id: user.id,

@@ -1,7 +1,7 @@
 import { sendEmail } from '@/src/lib/email'
 import {
   customerOrderConfirmationTemplate,
-  adminNewOrderTemplate,
+  adminNewOrderTemplate,verificationCodeTemplate,
 } from './email.templates'
 import { APP_CONFIG } from '@/src/config/app'
 
@@ -30,3 +30,12 @@ export async function sendOrderConfirmationEmails(order) {
     adminEmailSent: adminResult.status === 'fulfilled' && adminResult.value.success,
   }
 }
+
+export async function sendVerificationEmail({ to, name, code }) {
+  return sendEmail({
+    to,
+    subject: `Your ${APP_CONFIG.name} verification code: ${code}`,
+    html: verificationCodeTemplate({ name, code }),
+  })
+}
+

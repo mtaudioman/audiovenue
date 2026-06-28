@@ -11,3 +11,8 @@ export const registerSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
   phone: z.string().optional(),
 })
+
+export const verifyEmailSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  code: z.string().length(6, 'Enter the 6-digit code'),
+})

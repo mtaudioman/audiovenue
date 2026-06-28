@@ -124,13 +124,13 @@ export default function ProductForm({ product = null, categories = [] }) {
 
           {/* Basic Info */}
           <div className="bg-white rounded-2xl shadow-sm p-6">
-            <h2 className="font-bold text-lg mb-5">Product Information</h2>
+            <h2 className="font-bold text-lg mb-5 text-zinc-900">Product Information</h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-zinc-700 mb-1">Product Name *</label>
                 <input
                   {...register('name')}
-                  className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                  className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] text-zinc-900"
                   placeholder="e.g. Wilson Audio TuneTot Stand"
                 />
                 {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
@@ -140,7 +140,7 @@ export default function ProductForm({ product = null, categories = [] }) {
                 <label className="block text-sm font-medium text-zinc-700 mb-1">Slug *</label>
                 <input
                   {...register('slug')}
-                  className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                  className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] text-zinc-900"
                   placeholder="auto-generated-from-name"
                 />
                 <p className="text-xs text-zinc-400 mt-1">URL-friendly name. Leave blank to auto-generate.</p>
@@ -152,7 +152,7 @@ export default function ProductForm({ product = null, categories = [] }) {
                 <textarea
                   {...register('description')}
                   rows={4}
-                  className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] resize-none"
+                  className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] resize-none text-zinc-900"
                   placeholder="Describe the product..."
                 />
               </div>
@@ -171,7 +171,7 @@ export default function ProductForm({ product = null, categories = [] }) {
                     {...register('price', { valueAsNumber: true })}
                     type="number"
                     step="0.01"
-                    className="w-full border border-zinc-200 rounded-lg pl-7 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                    className="w-full border border-zinc-200 rounded-lg pl-7 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] text-zinc-900"
                     placeholder="0.00"
                   />
                 </div>
@@ -186,7 +186,7 @@ export default function ProductForm({ product = null, categories = [] }) {
                     {...register('comparePrice', { valueAsNumber: true })}
                     type="number"
                     step="0.01"
-                    className="w-full border border-zinc-200 rounded-lg pl-7 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                    className="w-full border border-zinc-200 rounded-lg pl-7 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] text-zinc-900"
                     placeholder="0.00"
                   />
                 </div>
@@ -203,7 +203,7 @@ export default function ProductForm({ product = null, categories = [] }) {
                 <label className="block text-sm font-medium text-zinc-700 mb-1">SKU</label>
                 <input
                   {...register('sku')}
-                  className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                  className="text-zinc-600 w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
                   placeholder="AV-001"
                 />
               </div>
@@ -212,7 +212,7 @@ export default function ProductForm({ product = null, categories = [] }) {
                 <input
                   {...register('stock', { valueAsNumber: true })}
                   type="number"
-                  className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                  className="text-zinc-600 w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
                   placeholder="0"
                 />
               </div>
@@ -221,7 +221,7 @@ export default function ProductForm({ product = null, categories = [] }) {
                 <input
                   {...register('lowStockAt', { valueAsNumber: true })}
                   type="number"
-                  className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                  className="text-zinc-600 w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
                   placeholder="5"
                 />
               </div>
@@ -230,7 +230,7 @@ export default function ProductForm({ product = null, categories = [] }) {
 
           {/* Images */}
           <div className="bg-white rounded-2xl shadow-sm p-6">
-            <h2 className="font-bold text-lg mb-5">Product Images</h2>
+            <h2 className="font-bold text-lg mb-5 text-zinc-900">Product Images</h2>
             <div className="flex gap-2 mb-4">
               <input
                 type="text"
@@ -291,7 +291,7 @@ export default function ProductForm({ product = null, categories = [] }) {
 
           {/* Variants */}
           <div className="bg-white rounded-2xl shadow-sm p-6">
-            <h2 className="font-bold text-lg mb-2">Variants</h2>
+            <h2 className="font-bold text-lg mb-2 text-zinc-900">Variants</h2>
             <p className="text-sm text-zinc-400 mb-4">e.g. Color: Black, Size: Large</p>
             <div className="grid grid-cols-3 gap-2 mb-3">
               <input
@@ -299,14 +299,14 @@ export default function ProductForm({ product = null, categories = [] }) {
                 value={variantName}
                 onChange={(e) => setVariantName(e.target.value)}
                 placeholder="Name (e.g. Color)"
-                className="border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                className="border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] text-zinc-900"
               />
               <input
                 type="text"
                 value={variantValue}
                 onChange={(e) => setVariantValue(e.target.value)}
                 placeholder="Value (e.g. Black)"
-                className="border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                className="border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] text-zinc-900"
               />
               <div className="flex gap-2">
                 <input
@@ -314,7 +314,7 @@ export default function ProductForm({ product = null, categories = [] }) {
                   value={variantPrice}
                   onChange={(e) => setVariantPrice(e.target.value)}
                   placeholder="Price (optional)"
-                  className="flex-1 border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                  className="flex-1 border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] text-zinc-900"
                 />
                 <button
                   type="button"
@@ -343,69 +343,83 @@ export default function ProductForm({ product = null, categories = [] }) {
           </div>
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-5">
+        
+       {/* Sidebar */}
+<div className="space-y-5">
 
-          {/* Status */}
-          <div className="bg-white rounded-2xl shadow-sm p-5">
-            <h3 className="font-bold mb-4">Status</h3>
-            <select
-              {...register('status')}
-              className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
-            >
-              <option value="DRAFT">Draft</option>
-              <option value="ACTIVE">Active</option>
-              <option value="ARCHIVED">Archived</option>
-              <option value="OUT_OF_STOCK">Out of Stock</option>
-            </select>
+  {/* Status */}
+  <div className="bg-white rounded-2xl shadow-sm p-5">
+    <h3 className="font-bold mb-4">Status</h3>
+    <select
+      {...register('status')}
+      className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+    >
+      <option value="DRAFT">Draft</option>
+      <option value="ACTIVE">Active</option>
+      <option value="ARCHIVED">Archived</option>
+      <option value="OUT_OF_STOCK">Out of Stock</option>
+    </select>
+    <div className="mt-4 flex items-center gap-3">
+      <input
+        {...register('isFeatured')}
+        type="checkbox"
+        id="isFeatured"
+        className="w-4 h-4 accent-[#8B8B5A]"
+      />
+      <label htmlFor="isFeatured" className="text-sm font-medium text-zinc-700">
+        Featured product
+      </label>
+    </div>
+  </div>
 
-            <div className="mt-4 flex items-center gap-3">
-              <input
-                {...register('isFeatured')}
-                type="checkbox"
-                id="isFeatured"
-                className="w-4 h-4 accent-[#8B8B5A]"
-              />
-              <label htmlFor="isFeatured" className="text-sm font-medium text-zinc-700">
-                Featured product
-              </label>
-            </div>
-          </div>
+  {/* Brand */}
+  <div className="bg-white rounded-2xl shadow-sm p-5">
+    <h3 className="font-bold mb-4">Brand</h3>
+    <select
+      {...register('brandId')}
+      className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+    >
+      <option value="">No brand</option>
+      {brands.map((brand) => (
+        <option key={brand.id} value={brand.id}>{brand.name}</option>
+      ))}
+    </select>
+  </div>
 
-          {/* Category */}
-          <div className="bg-white rounded-2xl shadow-sm p-5">
-            <h3 className="font-bold mb-4">Category</h3>
-            <select
-              {...register('categoryId')}
-              className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
-            >
-              <option value="">No category</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
-              ))}
-            </select>
-          </div>
+  {/* Category */}
+  <div className="bg-white rounded-2xl shadow-sm p-5">
+    <h3 className="font-bold mb-4">Category</h3>
+    <select
+      {...register('categoryId')}
+      className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+    >
+      <option value="">No category</option>
+      {categories.map((cat) => (
+        <option key={cat.id} value={cat.id}>{cat.name}</option>
+      ))}
+    </select>
+  </div>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-zinc-900 text-white py-3.5 rounded-xl font-bold hover:bg-zinc-700 transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
-          >
-            {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-            {isEdit ? 'Update Product' : 'Create Product'}
-          </button>
+  {/* Submit */}
+  <button
+    type="submit"
+    disabled={loading}
+    className="w-full bg-zinc-900 text-white py-3.5 rounded-xl font-bold hover:bg-zinc-700 transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+  >
+    {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+    {isEdit ? 'Update Product' : 'Create Product'}
+  </button>
 
-          {isEdit && (
-            <button
-              type="button"
-              onClick={() => router.push('/admin/products')}
-              className="w-full border border-zinc-200 text-zinc-600 py-3 rounded-xl font-medium hover:bg-zinc-50 transition-colors"
-            >
-              Cancel
-            </button>
-          )}
-        </div>
+  {isEdit && (
+    <button
+      type="button"
+      onClick={() => router.push('/admin/products')}
+      className="w-full border border-zinc-200 text-zinc-600 py-3 rounded-xl font-medium hover:bg-zinc-50 transition-colors"
+    >
+      Cancel
+    </button>
+  )}
+</div>
       </div>
     </form>
   )

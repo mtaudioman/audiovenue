@@ -178,6 +178,19 @@ export function customerOrderConfirmationTemplate(order) {
 }
 
 
+export function verificationCodeTemplate({ name, code }) {
+  return `
+  <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#fafafa;border-radius:16px">
+    <h1 style="font-size:22px;color:#18181b;margin:0 0 4px">Audio Venue</h1>
+    <p style="color:#71717a;margin:0 0 24px">Verify your email address</p>
+    <p style="color:#3f3f46">Hi ${name || 'there'}, use this code to finish creating your account:</p>
+    <div style="text-align:center;margin:24px 0">
+      <span style="display:inline-block;font-size:34px;letter-spacing:10px;font-weight:700;color:#8B8B5A;background:#fff;border:1px solid #e4e4e7;border-radius:12px;padding:16px 24px">${code}</span>
+    </div>
+    <p style="color:#a1a1aa;font-size:13px">This code expires in 15 minutes. If you didn't request it, you can ignore this email.</p>
+  </div>`
+}
+
 // ADMIN NEW ORDER NOTIFICATION EMAIL
 
 export function adminNewOrderTemplate(order) {

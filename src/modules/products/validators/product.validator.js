@@ -12,5 +12,6 @@ export const productSchema = z.object({
   weight: z.number().positive().optional().nullable(),
   status: z.enum(['DRAFT', 'ACTIVE', 'ARCHIVED', 'OUT_OF_STOCK']).default('DRAFT'),
   isFeatured: z.boolean().default(false),
+  brandId: z.string().optional().nullable(),
   categoryId: z.string().optional().nullable(),
 })

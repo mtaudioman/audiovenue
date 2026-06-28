@@ -3,12 +3,13 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { logoutAction } from '../../modules/auth/actions/auth.actions'
-import { LayoutDashboard, ShoppingBag, Package, Tag, Users, LogOut, Store } from 'lucide-react'
+import { LayoutDashboard, ShoppingBag, Package, Tag, Users, LogOut, Store, Award } from 'lucide-react'
 
 const navItems = [
   { label: 'Overview', href: '/admin', icon: LayoutDashboard },
   { label: 'Orders', href: '/admin/orders', icon: ShoppingBag },
   { label: 'Products', href: '/admin/products', icon: Package },
+  { label: 'Brands', href: '/admin/brands', icon: Award },
   { label: 'Categories', href: '/admin/categories', icon: Tag },
   { label: 'Customers', href: '/admin/customers', icon: Users },
 ]
@@ -28,7 +29,9 @@ export default function AdminNav({ user }) {
             <nav className="hidden md:flex items-center gap-1">
               {navItems.map((item) => {
                 const Icon = item.icon
-                const isActive = item.href === '/admin' ? pathname === '/admin' : pathname.startsWith(item.href)
+                const isActive = item.href === '/admin'
+                  ? pathname === '/admin'
+                  : pathname.startsWith(item.href)
                 return (
                   <Link
                     key={item.href}
