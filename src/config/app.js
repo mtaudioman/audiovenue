@@ -4,7 +4,7 @@ export const APP_CONFIG = {
   adminEmail: process.env.ADMIN_EMAIL,
   adminName: process.env.ADMIN_NAME || 'Admin',
   email: {
-    from: process.env.FROM_EMAIL || 'onboarding@resend.dev',
+    from: process.env.FROM_EMAIL || 'noreply@audioavenue.store',
     fromName: process.env.FROM_NAME || 'Audiovenue',
   },
     contact: {
