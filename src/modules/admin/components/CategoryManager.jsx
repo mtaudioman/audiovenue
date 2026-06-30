@@ -9,12 +9,12 @@ import {
   deleteCategoryAction,
 } from '../actions/category.actions'
 
-export default function CategoryManager({ categories: initial }) {
+export default function CategoryManager({ categories: initial, brands = [] }) {
   const [categories, setCategories] = useState(initial)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [form, setForm] = useState({ name: '', slug: '', description: '' })
+  const [form, setForm] = useState({ name: '', slug: '', description: '', brandId: '' })
 
   function generateSlug(name) {
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
@@ -24,13 +24,17 @@ export default function CategoryManager({ categories: initial }) {
     setForm((f) => ({ ...f, name, slug: generateSlug(name) }))
   }
 
+  function resetForm() {
+    setForm({ name: '', slug: '', description: '', brandId: '' })
+  }
+
   async function handleCreate() {
     if (!form.name.trim()) return
     setLoading(true)
     const result = await createCategoryAction(form)
     if (result.success) {
       setCategories([...categories, result.category])
-      setForm({ name: '', slug: '', description: '' })
+      resetForm()
       setShowForm(false)
       toast.success('Category created!')
     } else {
@@ -43,7 +47,7 @@ export default function CategoryManager({ categories: initial }) {
     setLoading(true)
     const result = await updateCategoryAction(id, form)
     if (result.success) {
-      setCategories(categories.map((c) => c.id === id ? { ...c, ...form } : c))
+      setCategories(categories.map((c) => c.id === id ? { ...c, ...result.category } : c))
       setEditingId(null)
       toast.success('Category updated!')
     } else {
@@ -67,17 +71,22 @@ export default function CategoryManager({ categories: initial }) {
 
   function startEdit(cat) {
     setEditingId(cat.id)
-    setForm({ name: cat.name, slug: cat.slug, description: cat.description || '' })
+    setForm({
+      name: cat.name,
+      slug: cat.slug,
+      description: cat.description || '',
+      brandId: cat.brandId || cat.brand?.id || '',
+    })
   }
 
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
 
-      {/* Add New */}
+      {/* Header */}
       <div className="px-6 py-4 border-b border-zinc-100 flex justify-between items-center">
         <p className="text-sm text-zinc-500">{categories.length} categories</p>
         <button
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => { setShowForm(!showForm); resetForm() }}
           className="flex items-center gap-2 bg-zinc-900 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-zinc-700 transition-colors"
         >
           <Plus className="w-4 h-4" />
@@ -89,7 +98,7 @@ export default function CategoryManager({ categories: initial }) {
       {showForm && (
         <div className="px-6 py-4 bg-zinc-50 border-b border-zinc-100">
           <h3 className="font-semibold mb-3">New Category</h3>
-          <div className="grid grid-cols-3 gap-3 mb-3">
+          <div className="grid grid-cols-2 gap-3 mb-3">
             <div>
               <label className="text-xs font-medium text-zinc-500 mb-1 block">Name *</label>
               <input
@@ -107,6 +116,21 @@ export default function CategoryManager({ categories: initial }) {
                 placeholder="amplifiers"
                 className="w-full border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
               />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-zinc-500 mb-1 block">
+                Brand <span className="text-zinc-400 font-normal">(optional)</span>
+              </label>
+              <select
+                value={form.brandId}
+                onChange={(e) => setForm((f) => ({ ...f, brandId: e.target.value }))}
+                className="w-full border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] bg-white"
+              >
+                <option value="">No brand</option>
+                {brands.map((brand) => (
+                  <option key={brand.id} value={brand.id}>{brand.name}</option>
+                ))}
+              </select>
             </div>
             <div>
               <label className="text-xs font-medium text-zinc-500 mb-1 block">Description</label>
@@ -144,6 +168,7 @@ export default function CategoryManager({ categories: initial }) {
           <tr className="border-b border-zinc-100">
             <th className="text-left px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wide">Name</th>
             <th className="text-left px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wide">Slug</th>
+            <th className="text-left px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wide">Brand</th>
             <th className="text-left px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wide">Products</th>
             <th className="text-left px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wide">Status</th>
             <th className="px-6 py-3" />
@@ -152,7 +177,7 @@ export default function CategoryManager({ categories: initial }) {
         <tbody className="divide-y divide-zinc-50">
           {categories.length === 0 ? (
             <tr>
-              <td colSpan={5} className="text-center py-12 text-zinc-400 text-sm">
+              <td colSpan={6} className="text-center py-12 text-zinc-400 text-sm">
                 No categories yet. Add one above.
               </td>
             </tr>
@@ -179,6 +204,26 @@ export default function CategoryManager({ categories: initial }) {
                     />
                   ) : (
                     <p className="text-sm text-zinc-400">{cat.slug}</p>
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {editingId === cat.id ? (
+                    <select
+                      value={form.brandId}
+                      onChange={(e) => setForm((f) => ({ ...f, brandId: e.target.value }))}
+                      className="border border-zinc-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A] bg-white"
+                    >
+                      <option value="">No brand</option>
+                      {brands.map((brand) => (
+                        <option key={brand.id} value={brand.id}>{brand.name}</option>
+                      ))}
+                    </select>
+                  ) : cat.brand ? (
+                    <span className="text-xs bg-[#8B8B5A]/10 text-[#7a7a4e] px-2 py-1 rounded-full font-medium">
+                      {cat.brand.name}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-zinc-400">—</span>
                   )}
                 </td>
                 <td className="px-6 py-4">

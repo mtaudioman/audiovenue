@@ -9,6 +9,7 @@ const categorySchema = z.object({
   name: z.string().min(1, 'Name is required'),
   slug: z.string().min(1, 'Slug is required'),
   description: z.string().optional(),
+  brandId: z.string().optional().nullable(),
   isActive: z.boolean().default(true),
 })
 
@@ -25,12 +26,19 @@ export async function createCategoryAction(data) {
     const parsed = categorySchema.safeParse(data)
     if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
 
+    const payload = { ...parsed.data }
+    if (!payload.brandId) delete payload.brandId
+
     const category = await prisma.category.create({
-      data: parsed.data,
-      include: { _count: { select: { products: true } } },
+      data: payload,
+      include: {
+        _count: { select: { products: true } },
+        brand: { select: { id: true, name: true } },
+      },
     })
 
     revalidatePath('/admin/categories')
+    revalidatePath('/admin/brands')
     revalidatePath('/shop')
     return { success: true, category }
   } catch (error) {
@@ -44,12 +52,17 @@ export async function updateCategoryAction(id, data) {
     const parsed = categorySchema.partial().safeParse(data)
     if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
 
+    const payload = { ...parsed.data }
+    if (payload.brandId === '') payload.brandId = null
+
     const category = await prisma.category.update({
       where: { id },
-      data: parsed.data,
+      data: payload,
+      include: { brand: { select: { id: true, name: true } } },
     })
 
     revalidatePath('/admin/categories')
+    revalidatePath('/admin/brands')
     revalidatePath('/shop')
     return { success: true, category }
   } catch (error) {
@@ -62,6 +75,7 @@ export async function deleteCategoryAction(id) {
     await checkAdmin()
     await prisma.category.delete({ where: { id } })
     revalidatePath('/admin/categories')
+    revalidatePath('/admin/brands')
     return { success: true }
   } catch (error) {
     return { success: false, error: error.message }
