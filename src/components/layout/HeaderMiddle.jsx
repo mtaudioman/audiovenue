@@ -23,7 +23,7 @@ export default function HeaderMiddle({ cartItemCount = 0 }) {
     <div className="bg-white border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 h-24 flex items-center justify-between gap-8">
 
-        <Link href="/" className="flex-shrink-0">
+        <Link href="/" className="shrink-0">
           <h1 className="text-4xl font-light text-zinc-900 tracking-tight leading-none">
             Audio Venue
           </h1>
@@ -50,7 +50,7 @@ export default function HeaderMiddle({ cartItemCount = 0 }) {
 
         <button
           onClick={openCart}
-          className="flex-shrink-0 flex items-center gap-3 border border-zinc-200 rounded-lg px-5 py-3 hover:border-zinc-400 transition-colors group"
+          className="shrink-0 flex items-center gap-3 border border-zinc-200 rounded-lg px-5 py-3 hover:border-zinc-400 transition-colors group"
         >
           <div className="relative">
             <ShoppingBag className="w-6 h-6 text-zinc-700 group-hover:text-zinc-900 transition-colors" />
@@ -61,7 +61,7 @@ export default function HeaderMiddle({ cartItemCount = 0 }) {
             )}
           </div>
           <span className="text-sm font-medium text-zinc-700">
-            £0.00
+            $0.00
           </span>
         </button>
       </div>

@@ -1,4 +1,4 @@
-import prisma from '@/lib/db'
+import prisma from '@/src/lib/db'
 import { Users } from 'lucide-react'
 
 export const metadata = { title: 'Customers | Admin' }

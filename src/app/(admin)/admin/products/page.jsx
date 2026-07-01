@@ -14,7 +14,7 @@ const statusColors = {
 
 export default async function AdminProductsPage({ searchParams }) {
   const { page, search, status } = await searchParams
-  const { products, total, pages } = await getProducts({
+  const { products, total } = await getProducts({
     page: Number(page) || 1,
     search,
     status: status || undefined,

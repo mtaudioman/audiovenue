@@ -8,14 +8,13 @@ import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
 import { checkoutSchema } from '../validators/order.validator'
 import { confirmOrderAction } from '../actions/order.actions'
-import { PAYMENT_METHODS } from '@../config/app'
+import { PAYMENT_METHODS } from '@/src/config/app'
 
-
-const activeMethod = PAYMENT_METHODS.find((m) => m.id === selectedPayment)
-export default function CheckoutForm({ user }) {
+export default function CheckoutForm() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [selectedPayment, setSelectedPayment] = useState(PAYMENT_METHODS[0].id)
+  const activeMethod = PAYMENT_METHODS.find((m) => m.id === selectedPayment)
 
   const {
     register,

@@ -1,15 +1,17 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Loader2, Plus, Trash2, Upload } from 'lucide-react'
 import { productSchema } from '../../products/validators/product.validator'
 import { createProductAction, updateProductAction } from '../../products/actions/product.actions'
+import ImageUpload from '@/src/components/ImageUpload'
 
-export default function ProductForm({ product = null, categories = [] }) {
+export default function ProductForm({ product = null, categories = [], brands = [] }) {
   const router = useRouter()
   const isEdit = !!product
   const [loading, setLoading] = useState(false)
@@ -20,7 +22,7 @@ export default function ProductForm({ product = null, categories = [] }) {
   const [variantValue, setVariantValue] = useState('')
   const [variantPrice, setVariantPrice] = useState('')
 
-  const { register, handleSubmit, formState: { errors }, watch } = useForm({
+  const { register, handleSubmit, formState: { errors }, control } = useForm({
     resolver: zodResolver(productSchema),
     defaultValues: product ? {
       name: product.name,
@@ -43,20 +45,25 @@ export default function ProductForm({ product = null, categories = [] }) {
     },
   })
 
-  const nameValue = watch('name')
+  const nameValue = useWatch({ control, name: 'name' })
 
   function generateSlug(name) {
     return name?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || ''
   }
 
-  function addImage() {
-    if (!imageUrl.trim()) return
-    setImages([...images, {
-      url: imageUrl.trim(),
-      alt: nameValue || '',
-      isPrimary: images.length === 0,
-      sortOrder: images.length,
-    }])
+  function addImage(url = imageUrl) {
+    const normalizedUrl = url?.trim()
+    if (!normalizedUrl) return
+
+    setImages((prev) => ([
+      ...prev,
+      {
+        url: normalizedUrl,
+        alt: nameValue || '',
+        isPrimary: prev.length === 0,
+        sortOrder: prev.length,
+      },
+    ]))
     setImageUrl('')
   }
 
@@ -87,15 +94,45 @@ export default function ProductForm({ product = null, categories = [] }) {
   async function onSubmit(data) {
     setLoading(true)
     try {
+      const normalizedImages = images.map((img, i) => ({
+        url: img.url,
+        alt: img.alt || '',
+        isPrimary: img.isPrimary,
+        sortOrder: i,
+      }))
+
+      const normalizedVariants = variants.map((variant) => ({
+        name: variant.name,
+        value: variant.value,
+        price: variant.price ?? null,
+        stock: Number.isFinite(variant.stock) ? variant.stock : 0,
+        sku: variant.sku || null,
+      }))
+
       const payload = {
         ...data,
         slug: data.slug || generateSlug(data.name),
-        images: {
-          create: images.map((img, i) => ({ ...img, sortOrder: i })),
-        },
-        variants: variants.length > 0 ? {
-          create: variants,
-        } : undefined,
+        images: isEdit
+          ? {
+              deleteMany: {},
+              create: normalizedImages,
+            }
+          : {
+              create: normalizedImages,
+            },
+        variants:
+          normalizedVariants.length > 0
+            ? isEdit
+              ? {
+                  deleteMany: {},
+                  create: normalizedVariants,
+                }
+              : {
+                  create: normalizedVariants,
+                }
+            : isEdit
+              ? { deleteMany: {} }
+              : undefined,
       }
 
       const result = isEdit
@@ -232,17 +269,18 @@ export default function ProductForm({ product = null, categories = [] }) {
           <div className="bg-white rounded-2xl shadow-sm p-6">
             <h2 className="font-bold text-lg mb-5 text-zinc-900">Product Images</h2>
             <div className="flex gap-2 mb-4">
-              <input
-                type="text"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                placeholder="Paste image URL..."
-                className="flex-1 border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addImage())}
-              />
+              <div className="flex-1">
+                <label className="block text-sm font-medium text-zinc-700 mb-1">Image</label>
+                <ImageUpload
+                  value={imageUrl}
+                  onChange={setImageUrl}
+                  folder="audiovollum/products"
+                />
+              </div>
               <button
                 type="button"
                 onClick={addImage}
+                disabled={!imageUrl.trim()}
                 className="bg-[#8B8B5A] text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#7a7a4e] transition-colors flex items-center gap-1"
               >
                 <Plus className="w-4 h-4" />
@@ -253,13 +291,18 @@ export default function ProductForm({ product = null, categories = [] }) {
             {images.length === 0 ? (
               <div className="border-2 border-dashed border-zinc-200 rounded-xl p-8 text-center">
                 <Upload className="w-8 h-8 text-zinc-300 mx-auto mb-2" />
-                <p className="text-sm text-zinc-400">Add image URLs above</p>
+                <p className="text-sm text-zinc-400">Upload an image, then click Add</p>
               </div>
             ) : (
               <div className="grid grid-cols-3 gap-3">
                 {images.map((img, i) => (
                   <div key={i} className="relative group rounded-lg overflow-hidden border border-zinc-200 aspect-square">
-                    <img src={img.url} alt={img.alt} className="w-full h-full object-cover" />
+                    <Image
+                      src={img.url}
+                      alt={img.alt || 'Product image'}
+                      fill
+                      className="object-cover"
+                    />
                     {img.isPrimary && (
                       <span className="absolute top-1 left-1 bg-[#8B8B5A] text-white text-xs px-1.5 py-0.5 rounded">
                         Primary

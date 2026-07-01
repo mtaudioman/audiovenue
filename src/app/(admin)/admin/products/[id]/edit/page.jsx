@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation'
-import ProductForm from '@/modules/admin/components/ProductForm'
-import prisma from '@/lib/db'
+import ProductForm from '@/src/modules/admin/components/ProductForm'
+import prisma from '@/src/lib/db'
+import { serializeProduct } from '@/src/lib/serialize'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-file'
+import { ArrowLeft } from 'lucide-react'
 
 export const metadata = { title: 'Edit Product | Admin' }
 
@@ -24,6 +25,8 @@ export default async function EditProductPage({ params }) {
 
   if (!product) notFound()
 
+  const serializedProduct = serializeProduct(product)
+
   return (
     <div>
       <div className="flex items-center gap-4 mb-8">
@@ -33,7 +36,7 @@ export default async function EditProductPage({ params }) {
         </Link>
         <h1 className="text-2xl font-bold">Edit: {product.name}</h1>
       </div>
-      <ProductForm product={product} categories={categories} brands={brands} />
+      <ProductForm product={serializedProduct} categories={categories} brands={brands} />
     </div>
   )
 }

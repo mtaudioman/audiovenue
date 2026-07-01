@@ -1,10 +1,12 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Plus, Pencil, Trash2, Loader2, X, Check, ChevronDown, ChevronRight } from 'lucide-react'
 import { createBrandAction, updateBrandAction, deleteBrandAction } from '@/src/modules/brands/actions/brand.actions'
 import { createCategoryAction, updateCategoryAction, deleteCategoryAction } from '../actions/category.actions'
+import ImageUpload from '@/src/components/ImageUpload'
 
 export default function BrandManager({ brands: initial }) {
   const [brands, setBrands] = useState(initial)
@@ -167,12 +169,11 @@ export default function BrandManager({ brands: initial }) {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-zinc-500 mb-1 block">Logo URL</label>
-              <input
+              <label className="text-xs font-medium text-zinc-500 mb-1 block">Logo</label>
+              <ImageUpload
                 value={brandForm.logo}
-                onChange={(e) => setBrandForm((f) => ({ ...f, logo: e.target.value }))}
-                placeholder="https://..."
-                className="w-full border border-zinc-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B8B5A]"
+                onChange={(url) => setBrandForm((f) => ({ ...f, logo: url }))}
+                folder="audiovollum/brands"
               />
             </div>
             <div>
@@ -254,7 +255,13 @@ export default function BrandManager({ brands: initial }) {
                 </button>
 
                 {brand.logo && (
-                  <img src={brand.logo} alt={brand.name} className="w-8 h-8 object-contain rounded" />
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 object-contain rounded"
+                  />
                 )}
 
                 {editingBrand === brand.id ? (

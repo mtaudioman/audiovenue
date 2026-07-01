@@ -2,8 +2,10 @@
 
 import { revalidatePath } from 'next/cache'
 import { auth } from '@/src/lib/auth'
+import { destroyCloudinaryAssetByUrl } from '@/src/lib/cloudinary.server'
 import {
   createNewCategory,
+  getCategoryById,
   updateExistingCategory,
   deleteExistingCategory,
 } from '../services/category.service'
@@ -53,7 +55,13 @@ export async function updateCategoryAction(id, data) {
     const payload = { ...parsed.data }
     if ('parentId' in payload) payload.parentId = payload.parentId || null
 
+    const previous = await getCategoryById(id)
     const category = await updateExistingCategory(id, payload)
+
+    if (previous?.image && previous.image !== category.image) {
+      await destroyCloudinaryAssetByUrl(previous.image)
+    }
+
     revalidatePath('/admin/categories')
 
     return { success: true, category }
@@ -71,7 +79,12 @@ export async function deleteCategoryAction(id) {
     const session = await auth()
     if (!isAdmin(session)) return { success: false, error: 'Unauthorized' }
 
+    const category = await getCategoryById(id)
     await deleteExistingCategory(id)
+    if (category?.image) {
+      await destroyCloudinaryAssetByUrl(category.image)
+    }
+
     revalidatePath('/admin/categories')
 
     return { success: true }

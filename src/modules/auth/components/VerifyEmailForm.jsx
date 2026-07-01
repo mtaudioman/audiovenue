@@ -34,7 +34,11 @@ export default function VerifyEmailForm({ email }) {
   async function onResend() {
     setCooldown(30)
     const result = await resendCodeAction(email)
-    result.success ? toast.success('New code sent') : toast.error(result.error)
+    if (result.success) {
+      toast.success('New code sent')
+    } else {
+      toast.error(result.error)
+    }
   }
 
   return (

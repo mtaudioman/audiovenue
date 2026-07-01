@@ -1,5 +1,4 @@
 import { APP_CONFIG } from '@/src/config/app'
-import { ORDER_STATUS_LABELS } from '@/src/config/app'
 
 import { PAYMENT_METHOD_LABELS } from '@/src/config/app'
 

@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
-import { slugify } from '../services/category.service'
+import { slugify } from '../utils/category.utils'
+import ImageUpload from '@/src/components/ImageUpload'
 import {
   createCategoryAction,
   updateCategoryAction,
@@ -82,10 +83,19 @@ export default function CategoryForm({ category, categories = [] }) {
         <textarea value={form.description} onChange={(e) => update('description', e.target.value)} rows={3} className={`${input} resize-none`} placeholder="Optional" />
       </div>
 
-      <div>
+      {/* <div>
         <label className="block text-sm font-medium text-zinc-700 mb-1">Image URL</label>
         <input value={form.image} onChange={(e) => update('image', e.target.value)} className={input} placeholder="https://..." />
-      </div>
+      </div> */}
+
+  <div>
+        <label className="block text-sm font-medium text-zinc-700 mb-1">Image</label>
+        <ImageUpload
+          value={form.image}
+          onChange={(url) => update('image', url)}
+          folder="audiovollum/categories"
+        />
+   </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>

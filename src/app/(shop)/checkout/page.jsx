@@ -1,7 +1,7 @@
 import { auth } from '@/src/lib/auth'
 import { redirect } from 'next/navigation'
 import { getCart } from '@/src/modules/cart/services/cart.service'
-import CheckoutForm from '@src/modules/orders/components/CheckoutForm'
+import CheckoutForm from '@/src/modules/orders/components/CheckoutForm'
 import { formatPrice } from '@/src/modules/products/services/product.service'
 import Image from 'next/image'
 
@@ -23,7 +23,7 @@ export default async function CheckoutPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Form */}
         <div>
-          <CheckoutForm user={session.user} />
+          <CheckoutForm />
         </div>
 
         {/* Order Summary */}

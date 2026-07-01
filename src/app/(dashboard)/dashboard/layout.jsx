@@ -1,6 +1,5 @@
 import { auth } from '@/src/lib/auth'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
 // import { usePathname } from 'next/navigation'
 import DashboardNav from '@/src/components/layout/DashboardNav'
 

@@ -2,17 +2,26 @@
 
 import { revalidatePath } from 'next/cache'
 import { auth } from '@/src/lib/auth'
+import { destroyCloudinaryAssetByUrl } from '@/src/lib/cloudinary.server'
 import {
   createNewProduct,
+  getProductById,
   updateExistingProduct,
   deleteExistingProduct,
 } from '../services/product.service'
 import { productSchema } from '../validators/product.validator'
 
+function isAdmin(session) {
+  return (
+    session?.user &&
+    (session.user.role === 'ADMIN' || session.user.role === 'SUPER_ADMIN')
+  )
+}
+
 export async function createProductAction(data) {
   try {
     const session = await auth()
-    if (!session || session.user.role !== 'ADMIN') {
+    if (!isAdmin(session)) {
       return { success: false, error: 'Unauthorized' }
     }
 
@@ -35,7 +44,7 @@ export async function createProductAction(data) {
 export async function updateProductAction(id, data) {
   try {
     const session = await auth()
-    if (!session || session.user.role !== 'ADMIN') {
+    if (!isAdmin(session)) {
       return { success: false, error: 'Unauthorized' }
     }
 
@@ -44,7 +53,15 @@ export async function updateProductAction(id, data) {
       return { success: false, error: parsed.error.errors[0].message }
     }
 
+    const previous = await getProductById(id)
     const product = await updateExistingProduct(id, parsed.data)
+
+    const previousUrls = previous?.images?.map((image) => image.url) || []
+    const nextUrls = parsed.data.images?.create?.map((image) => image.url) || []
+    const removedUrls = previousUrls.filter((url) => !nextUrls.includes(url))
+
+    await Promise.all(removedUrls.map((url) => destroyCloudinaryAssetByUrl(url)))
+
     revalidatePath('/shop')
     revalidatePath(`/shop/${data.slug}`)
     revalidatePath('/admin/products')
@@ -59,11 +76,14 @@ export async function updateProductAction(id, data) {
 export async function deleteProductAction(id) {
   try {
     const session = await auth()
-    if (!session || session.user.role !== 'ADMIN') {
+    if (!isAdmin(session)) {
       return { success: false, error: 'Unauthorized' }
     }
 
+    const product = await getProductById(id)
     await deleteExistingProduct(id)
+    await Promise.all((product?.images || []).map((image) => destroyCloudinaryAssetByUrl(image.url)))
+
     revalidatePath('/shop')
     revalidatePath('/admin/products')
 

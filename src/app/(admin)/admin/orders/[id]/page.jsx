@@ -1,6 +1,6 @@
-import { getOrderById, changeOrderStatus } from '@/src/modules/orders/services/order.service'
+import { getOrderById } from '@/src/modules/orders/services/order.service'
 import { formatPrice } from '@/src/modules/products/services/product.service'
-import { redirect, notFound } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import OrderStatusUpdater from '@/src/modules/orders/components/OrderStatusUpdater'
 import { PAYMENT_METHOD_LABELS } from '@/src/config/app'
 

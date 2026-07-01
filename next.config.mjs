@@ -13,6 +13,9 @@ const nextConfig = {
       '@': path.resolve(__dirname, 'src'),
     },
   },
+    images: {
+    remotePatterns: [{ protocol: 'https', hostname: 'res.cloudinary.com' }],
+  },
 }
 
 
